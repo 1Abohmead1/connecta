@@ -12,9 +12,9 @@ def checkUser(username, email, password):
   user = db.fetchone()
   if not user: return "username or/and email not correct"
 
-  if not check_password_hash(user[3], str(password)): return "password not correct"
+  if not check_password_hash(user['hash'], str(password)): return "password not correct"
 
-  return user['user_id']
+  return user['id']
 
 def availableEmail(email):
   conn, db = getDb()
