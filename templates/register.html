@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  register
+{% endblock %}
+
+{% block content %}
+  <registerContainer>
+    <section class="register-logo flex-grow-1 d-flex justify-content-center align-items-center">
+      <logoContainer data-brand="white"></logoContainer>
+    </section>
+
+    <main class="flex-grow-1 p-5 d-flex flex-column justify-content-center">
+      <h2 class="text-center mb-5">Register</h2>
+  
+      <form class="auth-form login-form">
+        <section class="field-section required">
+          <div class="field auth-field">
+            <label for="email">Email <span class="text-danger fw-bold">*</span></label>
+            <span class="icon"><i data-lucide="mail"></i></span>
+            <input type="email" name="email" id="email" autocomplete="off">
+          </div>
+          <div class="error-preview"></div>
+        </section>
+  
+        <section class="field-section required">
+          <div class="field auth-field">
+            <label for="username">Username <span class="text-danger fw-bold">*</span></label>
+            <span class="icon"><i data-lucide="user"></i></span>
+            <input type="text" name="username" id="username" autocomplete="off">
+          </div>
+          <div class="error-preview"></div>
+        </section>
+
+        <section class="field-section required">
+          <div class="field auth-field">
+            <span class="icon"><i data-lucide="calendar-fold"></i></span>
+            <label for="birth">Birth day <span class="text-danger fw-bold">*</span></label>
+            <input class="active" type="date" name="birth_day" id="birth" autocomplete="off">
+          </div>
+          <div class="error-preview"></div>
+        </section>
+  
+        <section class="field-section required">
+          <div class="field auth-field">
+            <label for="password">Password <span class="text-danger fw-bold">*</span></label>
+            <span class="icon"><i data-lucide="key-round"></i></span>
+            <input class="showable-password" type="password" name="password" id="password" autocomplete="off">
+            <span class="show-password-btn" title="show password"><i data-lucide="eye"></i></span>
+          </div>
+          <div class="error-preview"></div>
+        </section>
+
+        <section class="global-error-preview"></section>
+  
+        <button class="auth-btn mb-3" type="submit">Register <i data-lucide="log-in"></i> <span class="loader"><i data-lucide="loader"></i></span></button>
+      </form>
+      <p class="mb-0">Are you already haven an account ? <a class="text-primary fw-bold" href="/login">Login</a></p>
+    </main>
+  </registerContainer>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/static/js/auth.js"></script>
+{% endblock %}

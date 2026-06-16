@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  login
+{% endblock %}
+
+{% block content %}
+  <loginContainer>
+    <logoContainer></logoContainer>
+
+    <h2 class="text-center">Login</h2>
+
+    <form class="auth-form login-form">
+      <section class="field-section required">
+        <div class="field auth-field">
+          <label for="email">Email <span class="text-danger fw-bold">*</span></label>
+          <span class="icon"><i data-lucide="mail"></i></span>
+          <input type="email" name="email" id="email" autocomplete="off">
+        </div>
+        <div class="error-preview"></div>
+      </section>
+
+      <section class="field-section required">
+        <div class="field auth-field">
+          <label for="username">Username <span class="text-danger fw-bold">*</span></label>
+          <span class="icon"><i data-lucide="user"></i></span>
+          <input type="text" name="username" id="username" autocomplete="off">
+        </div>
+        <div class="error-preview"></div>
+      </section>
+
+      <section class="field-section required">
+        <div class="field auth-field">
+          <label for="password">Password <span class="text-danger fw-bold">*</span></label>
+          <span class="icon"><i data-lucide="key-round"></i></span>
+          <input class="showable-password" type="password" name="password" id="password" autocomplete="off">
+          <span class="show-password-btn" title="show password"><i data-lucide="eye"></i></span>
+        </div>
+        <div class="error-preview"></div>
+      </section>
+
+      <section class="global-error-preview"></section>
+
+      <button class="auth-btn" type="submit">Login <i data-lucide="log-in"></i> <span class="loader"><i data-lucide="loader"></i></span></button>
+    </form>
+    <p class="mb-0">Are you haven't account ? <a class="text-primary fw-bold" href="/register">Ceate New Account</a></p>
+  </loginContainer>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/static/js/auth.js"></script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  friends
+{% endblock %}
+
+{% block content %}
+  <aside class="home-sidebar position-fixed h-100vh p-3 bg-white">
+    <ul class="d-flex flex-column gap-5">
+      <li><a class="page-link" href="/home"><i data-lucide="home"></i></a></li>
+      <li><a class="page-link active" href="/friends"><i data-lucide="users"></i></a></li>
+    </ul>
+  </aside>
+
+  <div class="container">
+    <a href="/home" class="text-primary p-2 d-block"><i data-lucide="arrow-left"></i> back to home</a>
+  
+    <h2>Friend requests:</h2>
+    {% if requests %}
+    <div class="grid justify-content-center">
+      {% for request in requests %}
+        <div class="request d-flex flex-column align-items-center bg-light py-2">
+          <a class="user-image" href="/profile/{{ request.username }}">
+            <img src="{{ url_for('uploaded_file', filename=request.user_image_path) }}">
+          </a>
+          <p class="fw-bold mb-0">{{ request.username }}</p>
+          <p>{{ request.email }}</p>
+          <form method="POST" action="/friends/new" class="confirm-friend-form">
+            <input hidden type="hidden" name="user_id" value="{{ request.id }}">
+            <button class="auth-btn">confirm friend <i data-lucide="user-plus"></i></button>
+          </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+      <p>no requests</p>
+    {% endif %}
+  
+    <h2>Friends:</h2>
+    {% if friends %}
+    <div class="grid justify-items-center">
+     {% for friend in friends %}
+        <div class="friend d-flex flex-column align-items-center bg-light py-2">
+          <a class="user-image" href="/profile/{{ friend.username }}">
+            <img src="{{ url_for('uploaded_file', filename=friend.user_image_path) }}">
+          </a>
+          <p class="fw-bold mb-0">{{ friend.username }}</p>
+          <p>{{ friend.email }}</p>
+          <form method="POST" action="/friends/remove" class="confirm-friend-form">
+            <input hidden type="hidden" name="user_id" value="{{ friend.id }}">
+            <button class="auth-btn bg-danger">delete friend <i data-lucide="user-x"></i></button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>you have no friends</p>
+    {% endif %}
+  </div>
+{% endblock %}

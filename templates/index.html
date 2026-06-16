@@ -1,0 +1,202 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block content %}
+  <main class="d-flex">
+    <aside class="home-sidebar position-fixed h-100vh p-3 bg-white">
+      <ul class="d-flex flex-column gap-5">
+        <li><a class="page-link active" href="/home"><i data-lucide="home"></i></a></li>
+        <li><a class="page-link" href="/friends"><i data-lucide="users"></i></a></li>
+      </ul>
+    </aside>
+    <main class="home flex-grow-1">
+      <header class="home-header d-flex justify-content-between align-items-center p-3 position-sticky top-0 bg-white">
+        <logoContainer></logoContainer>
+        <section class="d-flex gap-2">
+          <a class="user-image" href="/profile/{{ current_user.username }}"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></a>
+        </section>
+      </header>
+
+      <div class="container mt-3">
+        <section class="status-container d-flex gap-2">
+          {% if not current_user.status_video_path %}
+            <form method="POST" action="/status/new" class="status position-relative add-status-form bg-light flex-column justify-content-center">
+              <p>add new status</p>
+              <button class="status-upload-btn">
+                <input hidden type="file" name="video" accept=".mp4, .mkv">
+                <i data-lucide="plus"></i>
+              </button>
+              <span class="loader"><i data-lucide="loader"></i></span>
+            </form>
+          {% else %}
+            <div class="status media rounded position-relative">
+              <div class="user-image"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></div>
+              <form method="POST" action="/status/remove" class="delete-form">
+                <button type="submit" class="btn"><i data-lucide="trash-2"></i></button>
+              </form>
+              <video autoplay loop controls src="{{ url_for('uploaded_file', filename=current_user.status_video_path) }}"></video>
+            </div>
+          {% endif %}
+          {% if friends %}
+            {% for friend in friends %}
+              {% if friend.status_video_path %}
+                <div class="status media rounded position-relative">
+                  <div class="d-flex justify-content-between position-absolute top-0 left-0 w-100 pe-2">
+                    <div class="user-image"><img src="{{ url_for('uploaded_file', filename=friend.user_image_path) }}"></div>
+                    <p class="text-white">{{ friend.username }}</p>
+                  </div>
+                  <video autoplay loop controls src="{{ url_for('uploaded_file', filename=friend.status_video_path) }}"></video>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </section>
+        <p class="status-error-preview text-danger fw-bold"></p>
+        
+        <section class="d-flex mt-3 gap-2 align-items-start">
+          <a class="user-image" href="/profile/{{ current_user.username }}"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></a>
+          
+          <form class="new-post-form flex-grow-1 d-flex flex-column" enctype="multipart/form-data">
+            <section class="field-section post-creation">
+              
+              <div class="field d-flex flex-column">
+                <textarea class="post-textarea" placeholder="what's in your mind ?" name="content" rows="4"></textarea>
+                
+                <button type="button" class="upload-btn position-absolute bottom-0 mb-1 left-0">
+                  <input hidden type="file" name="image" accept=".jpg, .jpeg, .png">
+                  Upload image <i data-lucide="upload"></i>
+                </button>
+
+                <div class="post-image-preview"></div>
+              </div>
+            </section>
+
+            <div class="d-flex justify-content-between">
+              <p class="post-error-preview text-danger fw-bold"></p>
+              <button type="submit" class="btn btn-primary align-self-end">Publish <i data-lucide="globe"></i></button>
+            </div>
+          </form>
+        </section>
+
+        <section class="posts d-grid mt-3 mb-3">
+          {% if posts %}
+            {% for post in posts %}
+              <div class="post mb-3">
+                <div class="post-header px-4 pt-2 d-flex justify-content-between mb-3">
+                  <div class="user-data d-flex gap-3">
+                    <a href="/profile/{{ post.username }}" class="user-image"><img src="{{ url_for('uploaded_file', filename=post.user_image_path) }}"></a>
+                    <div>
+                      <span class="fs-6 d-block lh-1">{{ post.username }}</span>
+                      <span class="fs-6 lh-1 color-text">{{ post.email }}</span>
+                    </div>
+                  </div>
+                  <div class="d-flex gap-1">
+                    <p class="ago">{{ post.post_date[10:16] }}</p>
+                    {% if post.user_id == session['user_id'] %} 
+                      <form class="delete-post-form">
+                        <input hidden type="hidden" name="post_id" value="{{ post.id }}">
+                        <button type="submit" class="post-btn"><i data-lucide="trash-2"></i></button>
+                      </form>
+                    {% endif %}
+                  </div>
+                </div>
+                <pre class="post-content mb-3 px-4">{{ post.post_content }}</pre>
+                {% if post.post_image_path %}  
+                  <div class="post-image media"><img src="{{ url_for('uploaded_file', filename=post.post_image_path) }}" alt="post image"></div>
+                {% endif %}
+
+                <div class="post-comments">
+
+                  <div class="comments-header d-flex justify-content-between align-items-center">
+                    <form class="post-stats d-flex align-items-center gap-1 p-2">
+                      <input hidden type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+                      <input hidden type="hidden" name="post_id" value="{{ post.id }}">
+                      <input hidden type="hidden" name="react">
+                      {% if isReacted(post.id, 'like') %}
+                        <button class="post-btn active" data-reaction="like"><i data-lucide="thumbs-up"></i></button>
+                      {% else %}
+                        <button class="post-btn" data-reaction="like"><i data-lucide="thumbs-up"></i></button>
+                      {% endif %}
+                      <span class="post-likes f-6">{{ post.post_likes }}</span>
+                      {% if isReacted(post.id, 'dislike') %}
+                        <button class="post-btn active" data-reaction="dislike"><i data-lucide="thumbs-down"></i></button>
+                      {% else %}
+                        <button class="post-btn" data-reaction="dislike"><i data-lucide="thumbs-down"></i></button>
+                      {% endif %}
+                      <span class="post-dislikes f-6">{{ post.post_dislikes }}</span>
+                      {% if isReacted(post.id, 'laugh') %}
+                        <button class="post-btn active" data-reaction="laugh"><i data-lucide="laugh"></i></button>
+                      {% else %}
+                        <button class="post-btn" data-reaction="laugh"><i data-lucide="laugh"></i></button>
+                      {% endif %}
+                      <span class="post-laughs f-6">{{ post.post_laughs }}</span>
+                    </form>
+
+                    <div class="d-flex align-items-center mx-3">
+                      <button class="post-btn comments-btn"><i data-lucide="messages-square"></i></button>
+                      {% set comments, comments_count = getComments(post.id) %}
+                      <span class="fs-6 comments-count">{{ comments_count }}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="comments-container px-4 border-top py-3">
+                    <form class="comment-form d-flex align-items-center gap-2 mb-3">
+                      <div class="user-image"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></div>
+                      <input hidden type="hidden" name="post_id" value="{{ post.id }}">
+                      <div class="field mb-0">
+                        <textarea class="comment-textarea" name="content" rows="1" placeholder="write a comment"></textarea>
+                      </div>
+                      
+                      <button type="submit" class="post-btn"><i data-lucide="send"></i></button>
+                    </form>
+                    
+                    <div class="comments-wrapper">
+                      <div class="comments overflow-hidden">
+                        {% if comments %}
+                          {% for comment in comments %}
+                            <div class="comment d-flex align-items-start gap-2 mb-3">
+                              <a class="user-image" href="/profile/{{ comment.username }}">
+                                <img src="{{ url_for('uploaded_file', filename=comment.user_image_path) }}">
+                              </a>
+                              
+                              <div class="content border flex-grow-1 rounded px-4">
+                                <div class="d-flex justify-content-between">
+                                  <p>{{ comment.username }}</p>
+                                  <div class="d-flex gap-1">
+                                    <p>{{ comment.date[11:16] }}</p>
+
+                                    {% if comment.user_id == session['user_id'] %}
+                                      <form class="delete-comment-form">
+                                        <input hidden type="hidden" name="comment_id" value="{{ comment.id }}">
+                                        <button type="submit" class="post-btn"><i data-lucide="trash-2"></i></button>
+                                      </form>
+                                    {% endif %}
+                                  </div>
+                                </div>
+    
+                                <p>{{ comment.content }}</p>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            {% endfor %} 
+          {% endif %}
+        </section>
+      </div>
+    </main>
+  </main>
+  <div class="overlay"></div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/static/js/home.js"></script>
+{% endblock %}

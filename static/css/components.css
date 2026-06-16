@@ -1,0 +1,443 @@
+logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+logoContainer logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bs-primary);
+  width: 50px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+logoContainer svg {
+  stroke: white;
+  fill: white;
+}
+
+logoContainer a {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 340px;
+  gap: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: var(--main-border);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+registerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+registerContainer .register-logo {
+  background-color: var(--bs-primary);
+}
+
+.auth-form {
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  margin-bottom: 1rem;
+  width: 100%;
+  border: var(--main-border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: var(--default-transition);
+}
+
+.auth-field label {
+  position: absolute;
+  top: 50%;
+  left: 42px;
+  padding: 0 10px;
+  cursor: text;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: var(--default-transition);
+}
+
+.auth-field:has(input:focus) label,
+.auth-field:has(input.active) label,
+.auth-field:has(textarea:focus) label,
+.auth-field:has(textarea.active) label {
+  background-color: white;
+  top: 0;
+}
+
+.field:has(input:focus), .field:has(textarea:focus), .field:hover {
+  border-color: black;
+}
+
+.field input, .field textarea {
+  display: block;
+  flex-grow: 1;
+  border: none;
+}
+.field:has(input.invalid), .field:has(textarea.invalid) {
+  border-color: var(--bs-danger)
+}
+
+.field input:focus, .field textarea:focus {
+  outline: none;
+}
+
+.field .icon {
+  margin-right: 10px;
+  color: var(--main-icon-color);
+  transition: var(--default-transition);
+}
+.field:has(input:focus) .icon, .field:hover .icon {
+  color: black;
+}
+
+.auth-btn {
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.loader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.loader svg {
+  animation: spin var(--default-animation-duration) linear infinite;
+}
+
+.loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: inherit;
+  z-index: 1;
+}
+
+.loading .loader {
+  display: block;
+}
+
+[disabled] {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+.auth-btn svg {
+  margin-left: 10px;
+  transition: var(--default-transition);
+}
+
+.auth-btn.auth-btn:hover svg {
+  transform: translateX(5px);
+}
+
+.home {
+  margin-left: 56px;
+}
+
+.home-header {
+  border-bottom: var(--main-border);
+  z-index: 99;
+}
+
+.home-sidebar {
+  border-right: var(--main-border);
+  z-index: 100;
+}
+
+@media (max-width: 772px) {
+  body {
+    padding-bottom: 70px;
+  }
+
+  .home {
+    margin-left: 0;
+  }
+
+  .home-sidebar {
+    width: 100%;
+    height: max-content;
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: var(--main-border);
+  }
+
+  .home-sidebar ul {
+    flex-direction: row !important;
+    justify-content: center;
+  }
+}
+
+.status-container {
+  min-width: 0;
+  max-width: 100vw;
+  overflow-x: scroll;
+}
+
+.status {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: black;
+  width: 150px;
+  height: 200px;
+  flex-shrink: 0;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.status video {
+  width: 100%;
+  height: 100%;
+}
+
+.status img, .status .delete-form {
+  position: absolute;
+  top: 5px;
+  background-color: white;
+}
+
+.status img {
+  width: 50px;
+  height: 50px;
+  left: 5px;
+}
+
+.status .delete-form {
+  right: 5px;
+}
+
+.status .delete-form button {
+  padding: 0;
+}
+
+.search-btn {
+  background: transparent;
+  border: none;
+}
+
+.post-textarea {
+  margin-bottom: 40px;
+}
+
+.post {
+  max-width: 1000px;
+  border: var(--main-border);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.post-header {
+  border-bottom: var(--main-border)
+}
+
+.post-content {
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.upload-btn {
+  border: var(--main-border);
+  border-radius: 1rem;
+  padding: 0.3rem 0.5rem;
+  transition: var(--default-transition);
+}
+
+.upload-btn:hover {
+  background-color: transparent;
+}
+
+.post-image-preview img {
+  max-width: 100%;
+}
+
+.post-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--main-icon-color);
+}
+
+.post-btn.active svg {
+  fill: #eee
+}
+
+category {
+  color: var(--bs-primary)
+}
+
+.page-link.active {
+  color: var(--bs-primary)
+}
+
+.post .comments-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.post .comments-wrapper.active {
+  grid-template-rows: 1fr;
+}
+
+.media {
+  cursor: pointer;
+}
+
+.media.scaled {
+  position: fixed !important;
+  width: 100% !important;
+  height: 100vh !important;
+  max-width: 100% !important;
+  max-height: 100vh !important;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  z-index: 999;
+}
+
+.media.scaled > img, .media.scaled > video {
+  max-width: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+.media-close-btn {
+  position: fixed;
+  top: 30px;
+  right: 15px;
+  border: none;
+  color: white;
+  background-color: black;
+  z-index: 9999;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+}
+.overlay.active {
+  display: block;
+}
+
+.profile-image {
+  border-radius: 16px;
+  overflow: hidden;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.profile-image .p-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-image .profile-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 5px;
+}
+
+.profile-image .user-image {
+  position: absolute;
+  width: auto;
+  height: auto;
+  left: 20px;
+  bottom: 5px;
+  background-color: white;
+  overflow: visible;
+}
+.profile-image .user-image .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.profile-image .user-image .user-btn {
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+}
+
+
+.user-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow-y: hidden;
+}
+.user-image img {
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
