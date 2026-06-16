@@ -18,7 +18,7 @@ import secrets
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
-app.secret_key = 'C[*yttLv07qAK!ndIGBtsnvBS1F;bZJRmR,rK!bhc;#'
+app.secret_key = os.environ.get('SECRET_KEY')
 Session(app)
 
 if __name__ == 'main':
