@@ -1,4 +1,4 @@
-# ═══ CONNECTA ══════════════════════════════════════════════
+# ═══ CONNECTA ══════════
 #### Video Demo: coming soon
 #### Description:
 Connecta is a social media platform where you can upload your status, publish posts, react on posts, and send comments.
