@@ -2,7 +2,8 @@ from flask import session, current_app as app
 from db import getDb
 from upload import allowed_file, save_file
 from auth import availableUsername
-import os
+import cloudinary
+import cloudinary.uploader
 
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
@@ -51,7 +52,9 @@ def update_user(username, user_image, profile_image, bio):
       db.execute('UPDATE users SET username = %s WHERE id = %s', (username, session['user_id'],))
     if user_image and allowed_file(user_image.filename, ALLOWED_EXTENSIONS):
       old_image = current_user['user_image_path']
-      os.remove(os.path.join(app.root_path, 'uploads/', old_image))
+      if old_image and 'cloudinary' in old_image:
+        public_id = old_image.split('/')[-1].split('.')[0]
+        cloudinary.uploader.destroy(public_id)
       user_image_path = save_file(user_image)
       db.execute('UPDATE users SET user_image_path = %s WHERE id = %s', (user_image_path, session['user_id'],))
     if profile_image and allowed_file(profile_image.filename, ALLOWED_EXTENSIONS):
@@ -62,7 +65,8 @@ def update_user(username, user_image, profile_image, bio):
 
     conn.commit()
     return 'success'
-  except Exception:
+  except Exception as e:
+    print(f'[ERROR] {e}')
     conn.rollback()
     return 'some thing went wrong please try again later!'
   finally:
