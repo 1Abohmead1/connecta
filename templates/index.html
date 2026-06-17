@@ -166,7 +166,7 @@
                                 <div class="d-flex justify-content-between">
                                   <p>{{ comment.username }}</p>
                                   <div class="d-flex gap-1">
-                                    <p>{{ comment.date[11:16] }}</p>
+                                    <p>{{ comment.date.strftime('%H:%M') }}</p>
 
                                     {% if comment.user_id == session['user_id'] %}
                                       <form class="delete-comment-form">

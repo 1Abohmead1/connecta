@@ -56,7 +56,16 @@ def getPosts():
   try:
     db.execute(
       '''
-      SELECT * FROM posts
+      SELECT posts.id,
+       users.username,
+      users.email,
+      users.user_image_path
+      posts.post_content,
+      posts.post_likes,
+      posts.post_dislikes,
+      posts.post_laughs,
+      posts.post_date,
+      post_image_path FROM posts
       JOIN users ON users.id = posts.user_id
       ORDER BY post_date DESC
       '''
