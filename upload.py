@@ -1,6 +1,5 @@
 import cloudinary
 import cloudinary.uploader
-from flask import current_app as app
 import os
 
 cloudinary.config(
@@ -13,5 +12,5 @@ def allowed_file(filename, ALLOWED_EXTENSIONS):
   return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def save_file(file):
-  result = cloudinary.uploader(file)
+  result = cloudinary.uploader.upload(file)
   return result['secure_url']
