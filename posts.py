@@ -268,6 +268,7 @@ def removePostComment(comment_id):
     print('[DEBUG] database closed')
 
 def remove_post(post_id):
+  print(f'[DEBUG] post_id: {post_id}')
   if not post_id: return 'error'
 
   conn, db = getDb()
@@ -277,7 +278,9 @@ def remove_post(post_id):
     db.execute('DELETE FROM comments WHERE post_id = %s', (post_id,))
     conn.commit()
     return 'success'
-  except:
+  except Exception as e:
+    print(f'[ERROR] {e}')
     conn.rollback()
+    return 'some thing went wrong'
   finally:
     conn.close()
