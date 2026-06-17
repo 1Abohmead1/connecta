@@ -91,9 +91,9 @@ def get_user_posts(username):
       posts.post_dislikes,
       posts.post_laughs,
       posts.post_date,
-      post_image_path FROM posts
+      posts.post_image_path FROM posts
       JOIN users ON users.id = posts.user_id
-      WHERE users.username = ?
+      WHERE users.username = %s
       ORDER BY post_date DESC
       ''', (username,)
     )

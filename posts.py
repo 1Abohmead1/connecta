@@ -66,7 +66,7 @@ def getPosts():
       posts.post_dislikes,
       posts.post_laughs,
       posts.post_date,
-      post_image_path FROM posts
+      posts.post_image_path FROM posts
       JOIN users ON users.id = posts.user_id
       ORDER BY post_date DESC
       '''
