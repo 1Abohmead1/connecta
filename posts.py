@@ -57,6 +57,7 @@ def getPosts():
     db.execute(
       '''
       SELECT posts.id,
+      posts.user_id,
       users.username,
       users.email,
       users.user_image_path,
