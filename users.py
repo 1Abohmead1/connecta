@@ -81,10 +81,20 @@ def get_user_posts(username):
     
     db.execute(
       '''
-      SELECT * FROM posts JOIN users ON posts.user_id = users.id
-      WHERE user_id = %s
+      SELECT posts.id,
+      users.username,
+      users.email,
+      users.user_image_path,
+      posts.post_content,
+      posts.post_likes,
+      posts.post_dislikes,
+      posts.post_laughs,
+      posts.post_date,
+      post_image_path FROM posts
+      JOIN users ON users.id = posts.user_id
+      WHERE users.username = ?
       ORDER BY post_date DESC
-      ''', (user['id'],)
+      ''', (username,)
     )
     posts = db.fetchall()
     return posts
