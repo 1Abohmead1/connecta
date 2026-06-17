@@ -106,15 +106,23 @@ def reactPost(react, csrf, post_id):
   valid_reacts = ['like', 'dislike', 'laugh', 'reset']
   conn, db = getDb()
 
+  print(f'[DEBUG] react: {react}')
+  print(f'[DEBUG] csrf received: {csrf}')
+  print(f'[DEBUG] csrf in session: {session.get("csrf_token")}')
+  print(f'[DEBUG] post_id: {post_id}')
+
   if not react or react not in valid_reacts:
-    return jsonify({'error': 'some thing went wrong'})
+    print('[DEBUG] failed: invalid react')
+    return 'error'
   
   if not csrf or csrf != session['csrf_token']:
-    return jsonify({'error': 'some thing went wrong'})
+    print('[DEBUG] failed: csrf mismatch')
+    return 'error'
   
   db.execute('SELECT * FROM posts WHERE id = %s', (post_id,))
   current_post = db.fetchone()
   if not post_id or not current_post:
+    print('[DEBUG] failed: post not found')
     return jsonify({'error': 'some thing went wrong'})
   
   try:
@@ -134,12 +142,15 @@ def reactPost(react, csrf, post_id):
     
     db.execute('SELECT COUNT(*) as count FROM reacts WHERE react = %s AND post_id = %s', ('like', post_id,))
     post_likes = int(db.fetchone()['count'])
+    print(f'[DEBUG] new post_like {post_likes}')
 
     db.execute('SELECT COUNT(*) as count FROM reacts WHERE react = %s AND post_id = %s', ('dislike', post_id,))
     post_dislikes = int(db.fetchone()['count'])
+    print(f'[DEBUG] new post_like {post_dislikes}')
 
     db.execute('SELECT COUNT(*) as count FROM reacts WHERE react = %s AND post_id = %s', ('laugh', post_id,))
     post_laughs = int(db.fetchone()['count'])
+    print(f'[DEBUG] new post_laughs {post_laughs}')
 
     db.execute(
       '''
