@@ -94,15 +94,18 @@ function postReactions() {
       body: new FormData(form)
       })
 
+      const text = await response.text()
+      console.log(text)
+
       const likesPreview = form.querySelector('.post-likes')
       const dislikesPreview = form.querySelector('.post-dislikes')
       const laughsPreview = form.querySelector('.post-laughs')
 
-      new_stats = await response.json()
+      // new_stats = await response.json()
 
-      likesPreview.innerText = new_stats[0]
-      dislikesPreview.innerText = new_stats[1]
-      laughsPreview.innerText = new_stats[2]
+      // likesPreview.innerText = new_stats[0]
+      // dislikesPreview.innerText = new_stats[1]
+      // laughsPreview.innerText = new_stats[2]
     })
   })
 }
