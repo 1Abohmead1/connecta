@@ -71,7 +71,7 @@ profile
       {% if user.bio %}
       <p class="fs-6">Bio: {{ user.bio }}</p>
       {% endif %}
-      <p class="fw-bold">Joind: {{ user.creation[0:10] }}</p>
+      <p class="fw-bold">Joind: {{ user.creation.strftime('%H:%M') }}</p>
 
       {% set request = friend_request(user.id) %}
       {% if request %}
