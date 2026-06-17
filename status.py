@@ -20,9 +20,10 @@ def new_status(video):
     conn.commit()
 
     return 'success'
-  except:
+  except Exception as e:
+    print(f'[ERROR] {e}')
     conn.rollback()
-    return 'error'
+    return 'some thing went wrong please try again later !'
   finally:
     conn.close()
 
@@ -34,4 +35,4 @@ def removeStatus():
     conn.commit()
   except:
     conn.rollback()
-    return 'error'
+    return 'some thing went wrong please try again later !'
