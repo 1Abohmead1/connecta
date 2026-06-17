@@ -107,15 +107,15 @@ def reactPost(react, csrf, post_id):
   conn, db = getDb()
 
   if not react or react not in valid_reacts:
-    return False
+    return jsonify({'error': 'some thing went wrong'})
   
   if not csrf or csrf != session['csrf_token']:
-    return False
+    return jsonify({'error': 'some thing went wrong'})
   
   db.execute('SELECT * FROM posts WHERE id = %s', (post_id,))
   current_post = db.fetchone()
   if not post_id or not current_post:
-    return False
+    return jsonify({'error': 'some thing went wrong'})
   
   try:
     db.execute('DELETE FROM reacts WHERE user_id = %s AND post_id = %s', (session['user_id'], post_id,))
@@ -152,13 +152,14 @@ def reactPost(react, csrf, post_id):
     )
     
     conn.commit()
-  except:
+  except Exception as e:
     conn.rollback()
-    return 'error'
+    print(f'[ERROR] {e}')
+    return jsonify({'error': 'some thing went wrong'})
   finally:
     conn.close()
 
-  return [post_likes, post_dislikes, post_laughs]
+  return jsonify([post_likes, post_dislikes, post_laughs])
 
 def newPostComment(post_id, content):
   if not post_id or not content: return 
