@@ -7,7 +7,6 @@
 '''
 
 from flask import Flask, render_template, request, session, flash, redirect, url_for, send_from_directory
-from flask_session import Session
 from flask_login import LoginManager, login_required, login_user, UserMixin, logout_user
 from auth import registerUser, loginUser
 from posts import newPost, getPosts, reactPost, isReacted, newPostComment, getComments, removePostComment, remove_post
@@ -17,9 +16,7 @@ import os
 import secrets
 
 app = Flask(__name__)
-app.config['SESSION_TYPE'] = 'filesystem'
 app.secret_key = os.environ.get('SECRET_KEY')
-Session(app)
 
 if __name__ == 'main':
   app.run()
