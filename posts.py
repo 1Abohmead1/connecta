@@ -274,6 +274,7 @@ def remove_post(post_id):
   conn, db = getDb()
 
   try:
+    db.execute('DELETE FROM reacts WHERE post_id = %s', (post_id,))
     db.execute('DELETE FROM posts WHERE id = %s', (post_id,))
     db.execute('DELETE FROM comments WHERE post_id = %s', (post_id,))
     conn.commit()
