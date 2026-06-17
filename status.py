@@ -14,7 +14,9 @@ def new_status(video):
     if not allowed_file(video.filename, ALLOWED_EXTENSIONS) or video.filename == '':
       return 'Invalid file type. Allowed types are: {}'.format(', '.join(ALLOWED_EXTENSIONS))
 
+    print(f'[DEBUG] uploading video: {video.filename}')
     video_path = save_file(video)
+    print(f'[DEBUG] upload success: {video_path}')
 
     db.execute('UPDATE users SET status_video_path = %s WHERE id = %s', (video_path, session['user_id'],))
     conn.commit()
@@ -23,7 +25,7 @@ def new_status(video):
   except Exception as e:
     print(f'[ERROR] {e}')
     conn.rollback()
-    return 'some thing went wrong please try again later !'
+    return 'something went wrong please try again later!'
   finally:
     conn.close()
 
