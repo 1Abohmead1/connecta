@@ -16,7 +16,7 @@
       <header class="home-header d-flex justify-content-between align-items-center p-3 position-sticky top-0 bg-white">
         <logoContainer></logoContainer>
         <section class="d-flex gap-2">
-          <a class="user-image" href="/profile/{{ current_user.username }}"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></a>
+          <a class="user-image" href="/profile/{{ current_user.username }}"><img src="{{ current_user.user_image_path }}"></a>
         </section>
       </header>
 
@@ -33,11 +33,11 @@
             </form>
           {% else %}
             <div class="status media rounded position-relative">
-              <div class="user-image"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></div>
+              <div class="user-image"><img src="{{ current_user.user_image_path }}"></div>
               <form method="POST" action="/status/remove" class="delete-form">
                 <button type="submit" class="btn"><i data-lucide="trash-2"></i></button>
               </form>
-              <video autoplay loop controls src="{{ url_for('uploaded_file', filename=current_user.status_video_path) }}"></video>
+              <video autoplay loop controls src="{{ current_user.status_video_path }}"></video>
             </div>
           {% endif %}
           {% if friends %}
@@ -45,10 +45,10 @@
               {% if friend.status_video_path %}
                 <div class="status media rounded position-relative">
                   <div class="d-flex justify-content-between position-absolute top-0 left-0 w-100 pe-2">
-                    <div class="user-image"><img src="{{ url_for('uploaded_file', filename=friend.user_image_path) }}"></div>
+                    <div class="user-image"><img src="{{ friend.user_image_path }}"></div>
                     <p class="text-white">{{ friend.username }}</p>
                   </div>
-                  <video autoplay loop controls src="{{ url_for('uploaded_file', filename=friend.status_video_path) }}"></video>
+                  <video autoplay loop controls src="{{ friend.friend.status_video_path }}"></video>
                 </div>
               {% endif %}
             {% endfor %}
@@ -57,7 +57,7 @@
         <p class="status-error-preview text-danger fw-bold"></p>
         
         <section class="d-flex mt-3 gap-2 align-items-start">
-          <a class="user-image" href="/profile/{{ current_user.username }}"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></a>
+          <a class="user-image" href="/profile/{{ current_user.username }}"><img src="{{ current_user.user_image_path }}"></a>
           
           <form class="new-post-form flex-grow-1 d-flex flex-column" enctype="multipart/form-data">
             <section class="field-section post-creation">
@@ -87,7 +87,7 @@
               <div class="post mb-3">
                 <div class="post-header px-4 pt-2 d-flex justify-content-between mb-3">
                   <div class="user-data d-flex gap-3">
-                    <a href="/profile/{{ post.username }}" class="user-image"><img src="{{ url_for('uploaded_file', filename=post.user_image_path) }}"></a>
+                    <a href="/profile/{{ post.username }}" class="user-image"><img src="{{ post.user_image_path }}"></a>
                     <div>
                       <span class="fs-6 d-block lh-1">{{ post.username }}</span>
                       <span class="fs-6 lh-1 color-text">{{ post.email }}</span>
@@ -105,7 +105,7 @@
                 </div>
                 <pre class="post-content mb-3 px-4">{{ post.post_content }}</pre>
                 {% if post.post_image_path %}  
-                  <div class="post-image media"><img src="{{ url_for('uploaded_file', filename=post.post_image_path) }}" alt="post image"></div>
+                  <div class="post-image media"><img src="{{ post.post_image_path }}" alt="post image"></div>
                 {% endif %}
 
                 <div class="post-comments">
@@ -144,7 +144,7 @@
                   
                   <div class="comments-container px-4 border-top py-3">
                     <form class="comment-form d-flex align-items-center gap-2 mb-3">
-                      <div class="user-image"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}"></div>
+                      <div class="user-image"><img src="{{ current_user.user_image_path }}"></div>
                       <input hidden type="hidden" name="post_id" value="{{ post.id }}">
                       <div class="field mb-0">
                         <textarea class="comment-textarea" name="content" rows="1" placeholder="write a comment"></textarea>
@@ -159,7 +159,7 @@
                           {% for comment in comments %}
                             <div class="comment d-flex align-items-start gap-2 mb-3">
                               <a class="user-image" href="/profile/{{ comment.username }}">
-                                <img src="{{ url_for('uploaded_file', filename=comment.user_image_path) }}">
+                                <img src="{{comment.user_image_path }}">
                               </a>
                               
                               <div class="content border flex-grow-1 rounded px-4">

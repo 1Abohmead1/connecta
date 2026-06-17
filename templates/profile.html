@@ -14,10 +14,10 @@ profile
     {% if his_profile %}
       <form class="update-form" enctype="multipart/form-data">
       <div class="profile-image mb-3">
-        <img class="p-image" src="{{ url_for('uploaded_file', filename=user.profile_image_path) }}">
+        <img class="p-image" src="{{ user.profile_image_path }}">
         <div class="user-image">
           <div class="image-container media">
-            <img src="{{ url_for('uploaded_file', filename=user.user_image_path) }}"></img>
+            <img src="{{ user.user_image_path }}"></img>
           </div>
           <button type="button" class="upload-btn user-btn">
             <input hidden type="file" name="user-image" accept=".jpg, .jpeg, .png"><i data-lucide="square-pen"></i>
@@ -57,10 +57,10 @@ profile
       </form>
     {% else %}
       <div class="profile-image mb-3">
-      <img class="p-image" src="{{ url_for('uploaded_file', filename=user.profile_image_path) }}">
+      <img class="p-image" src="{{ user.profile_image_path }}">
       <div class="user-image">
         <div class="image-container media">
-          <img src="{{ url_for('uploaded_file', filename=user.user_image_path) }}"></img>
+          <img src="{{ user.user_image_path }}"></img>
         </div>
       </div>
       </div>
@@ -97,7 +97,7 @@ profile
         <div class="d-flex gap-2 flex-wrap">
           {% for friend in friends %}
             <div class="friend">
-              <a href="/profile/{{ friend.username }}" class="user-image"><img src="{{ url_for('uploaded_file', filename=friend.user_image_path) }}"></a>
+              <a href="/profile/{{ friend.username }}" class="user-image"><img src="{{ friend.user_image_path }}"></a>
             </div>
           {% endfor %}
         </div>
@@ -116,7 +116,7 @@ profile
         <div class="post-header px-4 pt-2 d-flex justify-content-between mb-3">
           <div class="user-data d-flex gap-3">
             <a href="/profile/{{ post.username }}" class="user-image"><img
-                src="{{ url_for('uploaded_file', filename=post.user_image_path) }}"></a>
+                src="{{ ost.user_image_path }}"></a>
             <div>
               <span class="fs-6 d-block lh-1">{{ post.username }}</span>
               <span class="fs-6 lh-1 color-text">{{ post.email }}</span>
@@ -134,7 +134,7 @@ profile
         </div>
         <pre class="post-content mb-3 px-4">{{ post.post_content }}</pre>
         {% if post.post_image_path %}
-        <div class="post-image media"><img src="{{ url_for('uploaded_file', filename=post.post_image_path) }}"
+        <div class="post-image media"><img src="{{ post.post_image_path }}"
             alt="post image"></div>
         {% endif %}
 
@@ -174,7 +174,7 @@ profile
 
           <div class="comments-container px-4 border-top py-3">
             <form class="comment-form d-flex align-items-center gap-2 mb-3">
-              <div class="user-image"><img src="{{ url_for('uploaded_file', filename=current_user.user_image_path) }}">
+              <div class="user-image"><img src="{{ current_user.user_image_path }}">
               </div>
               <input hidden type="hidden" name="post_id" value="{{ post.id }}">
               <div class="field mb-0">
@@ -190,7 +190,7 @@ profile
                 {% for comment in comments %}
                 <div class="comment d-flex align-items-start gap-2 mb-3">
                   <a class="user-image" href="/profile/{{ comment.username }}">
-                    <img src="{{ url_for('uploaded_file', filename=comment.user_image_path) }}">
+                    <img src="{{ comment.user_image_path }}">
                   </a>
 
                   <div class="content border flex-grow-1 rounded px-4">

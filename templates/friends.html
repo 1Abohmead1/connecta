@@ -21,7 +21,7 @@
       {% for request in requests %}
         <div class="request d-flex flex-column align-items-center bg-light py-2">
           <a class="user-image" href="/profile/{{ request.username }}">
-            <img src="{{ url_for('uploaded_file', filename=request.user_image_path) }}">
+            <img src="{{ request.user_image_path }}">
           </a>
           <p class="fw-bold mb-0">{{ request.username }}</p>
           <p>{{ request.email }}</p>
@@ -42,7 +42,7 @@
      {% for friend in friends %}
         <div class="friend d-flex flex-column align-items-center bg-light py-2">
           <a class="user-image" href="/profile/{{ friend.username }}">
-            <img src="{{ url_for('uploaded_file', filename=friend.user_image_path) }}">
+            <img src="{{ friend.user_image_path }}">
           </a>
           <p class="fw-bold mb-0">{{ friend.username }}</p>
           <p>{{ friend.email }}</p>
