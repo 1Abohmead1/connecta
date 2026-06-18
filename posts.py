@@ -1,6 +1,8 @@
 from db import getDb
 from flask import session, current_app as app, jsonify
 from upload import save_file, allowed_file
+import cloudinary
+import cloudinary.uploader
 
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
@@ -268,12 +270,17 @@ def removePostComment(comment_id):
     print('[DEBUG] database closed')
 
 def remove_post(post_id):
-  print(f'[DEBUG] post_id: {post_id}')
   if not post_id: return 'error'
 
   conn, db = getDb()
 
   try:
+    db.execute('SELECT * FROM posts WHERE id = ?', (post_id),)
+    post = db.fetchone()
+    if post['post_image_path']:
+      public_id = post['post_image_path'].split('/')[-1].split('.')[0]
+      cloudinary.uploader.destroy(public_id)
+
     db.execute('DELETE FROM reacts WHERE post_id = %s', (post_id,))
     db.execute('DELETE FROM comments WHERE post_id = %s', (post_id,))
     db.execute('DELETE FROM posts WHERE id = %s', (post_id,))
