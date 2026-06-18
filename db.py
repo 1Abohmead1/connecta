@@ -4,5 +4,6 @@ import os
 
 def getDb():
   conn = psycopg2.connect(os.environ.get('DATABASE_URL'), cursor_factory=RealDictCursor)
+  conn.autocommit = False
   db = conn.cursor(cursor_factory=RealDictCursor)
   return conn, db
