@@ -275,8 +275,8 @@ def remove_post(post_id):
 
   try:
     db.execute('DELETE FROM reacts WHERE post_id = %s', (post_id,))
-    db.execute('DELETE FROM posts WHERE id = %s', (post_id,))
     db.execute('DELETE FROM comments WHERE post_id = %s', (post_id,))
+    db.execute('DELETE FROM posts WHERE id = %s', (post_id,))
     conn.commit()
     return 'success'
   except Exception as e:
