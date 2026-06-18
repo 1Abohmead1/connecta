@@ -36,6 +36,7 @@ function postCategories() {
 function postPublish() {
   const form = document.querySelector('.new-post-form')
   if (!form) return
+  const btn = form.querySelector('button[type="submit"]')
   const textarea = form.querySelector('textarea')
   const errorPreview = document.querySelector('.post-error-preview')
 
@@ -46,10 +47,12 @@ function postPublish() {
       return
     }
 
+    btn.classList.add('loading')
     const response = await fetch('/publish', {
       method: 'POST',
       body: new FormData(form)
     })
+    btn.classList.remove('loading')
 
     const result = await response.text()
 
