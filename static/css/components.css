@@ -133,6 +133,9 @@ registerContainer .register-logo {
   animation: spin var(--default-animation-duration) linear infinite;
 }
 
+.loading {
+  position: relative;
+}
 .loading::before {
   content: '';
   position: absolute;
