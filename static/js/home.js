@@ -182,7 +182,7 @@ function postComments() {
     
     commentEl.innerHTML = 
     `
-    <a class="user-image" href="/profile/${username}"><img src="/uploads/${user_image}"></a>
+    <a class="user-image" href="/profile/${username}"><img src="${user_image}"></a>
     
     <div class="content border flex-grow-1 rounded px-4">
       <div class="d-flex justify-content-between">
