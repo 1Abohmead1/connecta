@@ -275,7 +275,7 @@ def remove_post(post_id):
   conn, db = getDb()
 
   try:
-    db.execute('SELECT * FROM posts WHERE id = %s', (post_id),)
+    db.execute('SELECT * FROM posts WHERE id = %s', (post_id,))
     post = db.fetchone()
     if post['post_image_path']:
       public_id = post['post_image_path'].split('/')[-1].split('.')[0]
